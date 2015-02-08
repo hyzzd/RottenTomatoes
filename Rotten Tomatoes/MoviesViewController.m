@@ -15,8 +15,9 @@
 @interface MoviesViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *movies;
+@property (weak, nonatomic) IBOutlet UILabel *networkErrorLabel;
 
+@property (strong, nonatomic) NSArray *movies;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @end
@@ -54,9 +55,16 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        self.movies = responseDictionary[@"movies"];
-        [self.tableView reloadData];
+        if (connectionError == nil) {
+            NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            self.movies = responseDictionary[@"movies"];
+            [self.tableView reloadData];
+            [self.networkErrorLabel setHidden:YES];
+        } else {
+            NSLog(@"Could not load data!");
+            [self.networkErrorLabel setHidden:NO];
+        }
+
         [self.refreshControl endRefreshing];
         [SVProgressHUD dismiss];
     }];
