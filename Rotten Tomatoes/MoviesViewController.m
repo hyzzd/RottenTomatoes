@@ -85,7 +85,15 @@
     cell.synopsisLabel.text = movie[@"synopsis"];
 
     NSString *url = [movie valueForKeyPath:@"posters.thumbnail"];
-    [cell.posterView setImageWithURL:[NSURL URLWithString:url]];
+
+    [cell.posterView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]] placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [UIView transitionWithView:cell.posterView duration:2.0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+            [cell.posterView setImage:image];
+        } completion:nil];
+        [self.networkErrorLabel setHidden:YES];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        [self.networkErrorLabel setHidden:NO];
+    }];
 
     return cell;
 }
