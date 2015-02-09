@@ -16,6 +16,7 @@
 
     MoviesViewController *vc = [[MoviesViewController alloc] init];
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [nvc.navigationBar setOpaque:YES];
     self.window.rootViewController = nvc;
 
     [self.window makeKeyAndVisible];
