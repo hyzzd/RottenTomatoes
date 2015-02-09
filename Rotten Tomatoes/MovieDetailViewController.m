@@ -27,7 +27,14 @@
 
     NSString *url = [self.movie valueForKeyPath:@"posters.thumbnail"];
     url = [url stringByReplacingOccurrencesOfString:@"tmb" withString:@"ori"];
-    [self.posterView setImageWithURL:[NSURL URLWithString:url] placeholderImage:self.lowResImage];
+//    [self.posterView setImageWithURL:[NSURL URLWithString:url] placeholderImage:self.lowResImage];
+
+    [self.posterView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]] placeholderImage:self.lowResImage success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [UIView transitionWithView:self.posterView duration:1.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+            [self.posterView setImage:image];
+        } completion:nil];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+    }];
 
     self.synopsisLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, self.scrollView.frame.size.width - 20, self.scrollView.frame.size.height)];
     self.synopsisLabel.text = self.movie[@"synopsis"];
