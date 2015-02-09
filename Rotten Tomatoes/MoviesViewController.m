@@ -92,9 +92,7 @@
         [UIView transitionWithView:cell.posterView duration:2.0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
             [cell.posterView setImage:image];
         } completion:nil];
-        [self.networkErrorLabel setHidden:YES];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        [self.networkErrorLabel setHidden:NO];
     }];
 
     return cell;
