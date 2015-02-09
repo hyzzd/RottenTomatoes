@@ -16,7 +16,7 @@
 
     MoviesViewController *vc = [[MoviesViewController alloc] init];
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
-    [nvc.navigationBar setOpaque:YES];
+    nvc.navigationBar.barTintColor = [UIColor colorWithRed:0.06 green:0.76 blue:0.89 alpha:0.9];
     self.window.rootViewController = nvc;
 
     [self.window makeKeyAndVisible];

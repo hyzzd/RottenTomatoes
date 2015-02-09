@@ -79,6 +79,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MovieCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MovieCell"];
 
+    [cell.posterView setImage:nil];
+
     NSDictionary *movie = self.movies[indexPath.row];
 
     cell.titleLabel.text = movie[@"title"];
@@ -99,10 +101,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    MovieCell *cell = (MovieCell *) [tableView cellForRowAtIndexPath:indexPath];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     MovieDetailViewController *vc = [[MovieDetailViewController alloc] init];
     vc.movie = self.movies[indexPath.row];
-    MovieCell *cell = (MovieCell *) [tableView cellForRowAtIndexPath:indexPath];
     vc.lowResImage = [cell.posterView image];
     [self.navigationController pushViewController:vc animated:YES];
 }
